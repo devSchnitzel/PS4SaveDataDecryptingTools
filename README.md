@@ -1,4 +1,5 @@
 # PS4SaveDataDecryptingTools
+CURRENTLY IN NON-WORKING STATE
 
 ## PS4DumpSealedKeyAndSecret
 
