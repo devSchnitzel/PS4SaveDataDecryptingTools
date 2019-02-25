@@ -26,7 +26,7 @@ int _main(void) {
 	// udp log to port 18194
 	server.sin_len = sizeof(server);
 	server.sin_family = AF_INET;
-	sceNetInetPton(2, "192.168.1.80", &server.sin_addr);
+	sceNetInetPton(2, "192.168.43.34", &server.sin_addr); // change to your own local IP
 	server.sin_port = sceNetHtons(18194);
 	memset(server.sin_zero, 0, sizeof(server.sin_zero));
 
