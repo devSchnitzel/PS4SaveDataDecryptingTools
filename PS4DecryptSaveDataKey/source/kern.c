@@ -62,8 +62,6 @@ int kernelPayload(struct thread *td, void* uap) {
 	writeCr0(cr0 & ~X86_CR0_WP);
 
 	// Disable ptrace checks
-	/*ptrKernel[KERN_PTRACE_CHECK_1] = 0xEB;
-	*(uint16_t*)&ptrKernel[KERN_PTRACE_CHECK_2] = 0x27EB;*/
 	//*(uint8_t *)&ptrKernel[KERN_PTRACE_CHECK] = 0x909090909090;
 
 	// Disable process aslr
