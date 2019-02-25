@@ -62,11 +62,18 @@ int kernelPayload(struct thread *td, void* uap) {
 	writeCr0(cr0 & ~X86_CR0_WP);
 
 	// Disable ptrace checks
-	ptrKernel[KERN_PTRACE_CHECK_1] = 0xEB;
-	*(uint16_t*)&ptrKernel[KERN_PTRACE_CHECK_2] = 0x27EB;
+	/*ptrKernel[KERN_PTRACE_CHECK_1] = 0xEB;
+	*(uint16_t*)&ptrKernel[KERN_PTRACE_CHECK_2] = 0x27EB;*/
+	//*(uint8_t *)&ptrKernel[KERN_PTRACE_CHECK] = 0x909090909090;
 
 	// Disable process aslr
-	*(uint16_t*)&ptrKernel[KERN_PROCESS_ASLR] = 0x9090;
+	//*(uint16_t*)&ptrKernel[KERN_PROCESS_ASLR] = 0x9090;
+
+        // Patch copyin/copyout to allow userland + kernel addresses in both params, from mira
+	// I figured this patch might be necessary, might be unneeded
+        *(uint8_t *)&ptrKernel[KERN_COPY_IN_PATCH] = 0x9090;
+
+        *(uint8_t *)&ptrKernel[KERN_COPY_OUT_PATCH]= 0x9090;
 
 	// Enable write protection
 	writeCr0(cr0);
@@ -83,7 +90,7 @@ int getSealedKeyAndSecretPayload(void* td, struct get_sealed_key_payload_args* a
 	
 	
 	GetSealedKeyKeyAndSecret_ptr getSealedKeyKeyAndSecret = (GetSealedKeyKeyAndSecret_ptr)&ptrKernel[KERN_GET_SEALED_KEY_KEY_AND_SECRET];
-	copyout_ptr copyout = (copyout_ptr)&ptrKernel[0x286D70];
+	copyout_ptr copyout = (copyout_ptr)&ptrKernel[KERN_COPY_OUT];
 	
 	byte p1[16];
 	byte p2[16];
