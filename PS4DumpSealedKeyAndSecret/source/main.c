@@ -63,13 +63,13 @@ int _main(void) {
 	// got the keys, now save them to usb
 	debug(sock, "getSealedKeyAndSecretPayload finished. Saving keys to file\n");
 	
-	FILE *dump = fopen("/mnt/usb0/sealedKey.bin", "w");
-	fwrite(sealedKey, 16, 1, dump);
-	fclose(dump);
+	int dump = open("/mnt/usb0/sealedKey.bin", O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	write(dump, sealedKey, 16);
+	close(dump);
 	
-	dump = fopen("/mnt/usb0/sealedSecret.bin", "w");
-	fwrite(sealedSecret, 16, 1, dump);
-	fclose(dump);
+	dump = open("/mnt/usb0/sealedSecret.bin", O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	write(dump, sealedSecret, 16);
+	close(dump);
 	
 	
 	
