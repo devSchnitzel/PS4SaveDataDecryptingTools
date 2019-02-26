@@ -115,9 +115,9 @@ int _main(void) {
 	// got the keys, now save them to usb
 	debug(sock, "sceSblSsDecryptSealedKeyPayload finished. Saving decrypted save data key to file\n");
 	
-	FILE *dump = fopen("/mnt/usb0/decryptedSaveDataKey.bin", "w");
-	fwrite(decryptedKey, sizeof(decryptedKey), 1, dump);
-	fclose(dump);
+	int dump = open("/mnt/usb0/decryptedSaveDataKey.bin", O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	write(dump, decryptedKey, sizeof(decryptedKey)); // or maybe write(dump, decryptedKey, 16);
+	close(dump);
 	
 	
 	
